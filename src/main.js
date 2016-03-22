@@ -2,10 +2,10 @@ import express from 'express'
 import pkg from '../package.json'
 import faker from 'faker'
 import _ from 'lodash'
-import bodyParse from 'body-parser'
+import bodyParser from 'body-parser'
 
 const users = _.times(100, () => {
-    return{
+    return {
         firstName: faker.name.firstName(),
         lasName: faker.name.lastName(),
         age: _.random(18, 99)
@@ -23,45 +23,47 @@ app
             query: req.query,
             body: req.body,
         }
-        console.log('REQUEST:\n' , JSON.stringify (reqDate, null, 2))
-            next()
+        console.log('REQUEST:\n', JSON.stringify(reqDate, null, 2))
+        next()
     })
 
     .get('/', (req, res) => {
-    res.send('you are at root!')
-
+        res.send('you are at root!')
+    })
     .get('/users', (req, res) => {
         let filteredUsers = [...users]
 
-        if (req.query.ageMin)
+        if (req.query.ageMin) {
             filteredUsers = filteredUsers
                 .filter((user) => user.age >= req.query.ageMin)
         }
-        if (req.query.ageMax)
+        if (req.query.ageMax) {
             filteredUsers = filteredUsers
                 .filter((user) => user.age >= req.query.ageMax)
-         if (req.query.sortBy)
-                filteredUsers = _.sortBy(filteredUsers, req.query.sortBy)
+        }
+        if (req.query.sortBy) {
 
+            filteredUsers = _.sortBy(filteredUsers, req.query.sortBy)
 
-          res.json(filteredUsers)
+        }
+        res.json(filteredUsers)
     })
 
-        .post('/users', (req, res) => {
-            users.push(req.body)
-            res.json(req.body)
-     })
-
-.get('/package', (req, res) => {
-    res.json(pkg)
-})
-
-.get('/quoe', (req, res) => {
-    res.json ({
-        author: faker.name.findname(),
-        quote: faker.hacker.phrase()
+    .post('/users', (req, res) => {
+        users.push(req.body)
+        res.json(req.body)
     })
-})
+
+    .get('/package', (req, res) => {
+        res.json(pkg)
+    })
+
+    .get('/quoe', (req, res) => {
+        res.json({
+            author: faker.name.findname(),
+            quote: faker.hacker.phrase()
+        })
+    })
 
 const PORT = process.env.PORT || 3000
 
