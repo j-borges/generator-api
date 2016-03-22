@@ -23,7 +23,7 @@ app
             query: req.query,
             body: req.body,
         }
-        console.log('REQUEST:\n', JSON.stringify(reqDate, null, 2))
+        console.log('REQUEST:\n', JSON.stringify(reqData, null, 2))
         next()
     })
 
